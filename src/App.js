@@ -24,10 +24,13 @@ function App() {
     <>
       <div className="App">
         <header className="App-header">
-          <h2>Prueba tecnica</h2>
-          <button>Colorear Files</button>
-          <button>ordenar por pais</button>
-          <button>resetear estado</button>
+          <h1>Prueba tecnica</h1>
+          <nav>
+            <button >Colorear Files</button>
+            <button>ordenar por pais</button>
+            <button>resetear estado</button>
+            <input type="text" name="" id="" placeholder='filtrar por pais ' />
+          </nav>
         </header>
         <table>
 
@@ -37,7 +40,7 @@ function App() {
               <th>Nombre</th>
               <th>Apellido</th>
               <th>Pais</th>
-              <th>Acciones</th>
+              <th>Accion</th>
             </tr>
 
             {users.map((user, index) => {
@@ -50,7 +53,7 @@ function App() {
                   <td>{user.name.first}</td>
                   <td>{user.name.last}</td>
                   <td>{user.location.country}</td>
-                  <td>accion</td>
+                  <td>Borrar</td>
 
                 </tr>)
             }
