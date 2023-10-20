@@ -4,21 +4,31 @@ import './App.css';
 function App() {
 
   const [users, setUsers] = useState([]);
-
+  const [showRowColors, setshowRowColors] = useState(false);
+  const [showSortUsers, setShowSortUsers] = useState(false);
   useEffect(() => {
     fetch('https://randomuser.me/api/?results=100')
       .then(res => res.json())
       .then(res => {
-
         setUsers(res.results)
 
       })
-
-
-
   }, [])
 
-  console.log(users.gender)
+  const activateRowcolors = () => {
+    setshowRowColors(!showRowColors)
+    console.log("sirve")
+
+  }
+
+  const sortingUsers = () => {
+    setShowSortUsers(!showSortUsers)
+
+  }
+
+  const usersArray = showSortUsers ? users.toSorted((a, b) => { return a.location.country.localeCompare(b.location.country) }) : users
+  const sortButtonInfoDisplay = showSortUsers ? "ordenar por pais" : "No ordenar por pais"
+
   return (
 
     <>
@@ -26,8 +36,8 @@ function App() {
         <header className="App-header">
           <h1>Prueba tecnica</h1>
           <nav>
-            <button >Colorear Files</button>
-            <button>ordenar por pais</button>
+            <button onClick={activateRowcolors} >Colorear Files</button>
+            <button onClick={sortingUsers}>{sortButtonInfoDisplay}</button>
             <button>resetear estado</button>
             <input type="text" name="" id="" placeholder='filtrar por pais ' />
           </nav>
@@ -43,12 +53,12 @@ function App() {
               <th>Accion</th>
             </tr>
 
-            {users.map((user, index) => {
+            {usersArray.map((user, index) => {
 
-              console.log(user.picture.thumbnail)
+              const rowColor = showRowColors ? index % 2 === 0 ? "bgc-1" : "bgc-2" : null
 
               return (
-                <tr key={index}>
+                <tr className={rowColor} key={index}>
                   <td><img src={user.picture.thumbnail} alt="" /> </td>
                   <td>{user.name.first}</td>
                   <td>{user.name.last}</td>

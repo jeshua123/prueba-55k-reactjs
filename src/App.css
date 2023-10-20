@@ -36,3 +36,12 @@ border-color: transparent;
 button:hover{ 
   border-color: blue;
 } 
+button:focus{ 
+  border-color: white;
+} 
+.bgc-1{
+  background-color: rgb(51,51,51);
+}
+.bgc-2{
+  background-color: rgb(85,85,85);
+}
