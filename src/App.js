@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -6,28 +6,35 @@ function App() {
   const [users, setUsers] = useState([]);
   const [showRowColors, setshowRowColors] = useState(false);
   const [showSortUsers, setShowSortUsers] = useState(false);
+  const [filterCountry, setFilterCountry] = useState(null);
+  const ref = useRef([])
   useEffect(() => {
     fetch('https://randomuser.me/api/?results=100')
       .then(res => res.json())
       .then(res => {
         setUsers(res.results)
+        ref.current = res.results
 
       })
   }, [])
 
-  const activateRowcolors = () => {
-    setshowRowColors(!showRowColors)
-    console.log("sirve")
+  const activateRowcolors = () => { setshowRowColors(!showRowColors) }
 
-  }
-
-  const sortingUsers = () => {
-    setShowSortUsers(!showSortUsers)
-
-  }
+  const sortingUsers = () => { setShowSortUsers(!showSortUsers) }
 
   const usersArray = showSortUsers ? users.toSorted((a, b) => { return a.location.country.localeCompare(b.location.country) }) : users
-  const sortButtonInfoDisplay = showSortUsers ? "ordenar por pais" : "No ordenar por pais"
+  const sortButtonInfoDisplay = showSortUsers ? "no ordenar por pais" : "ordenar por pais"
+
+  const filteredUsers = filterCountry ?
+    users.filter(user => user.location.country.tolowerCase().includes(filterCountry.toLowerCase())
+
+    ) : users
+
+  const handleDeleted = (email) => { setUsers(users.filter((users) => users.email !== email)) }
+  const setStated = () => {
+    setUsers(ref.current)
+  }
+
 
   return (
 
@@ -38,8 +45,11 @@ function App() {
           <nav>
             <button onClick={activateRowcolors} >Colorear Files</button>
             <button onClick={sortingUsers}>{sortButtonInfoDisplay}</button>
-            <button>resetear estado</button>
-            <input type="text" name="" id="" placeholder='filtrar por pais ' />
+            <button onClick={setStated}>resetear estado</button>
+            <input type="text" name="" id="" placeholder='filtrar por pais ' onChange={(e) => {
+              setFilterCountry(e.target.value)
+            }
+            } />
           </nav>
         </header>
         <table>
@@ -63,7 +73,7 @@ function App() {
                   <td>{user.name.first}</td>
                   <td>{user.name.last}</td>
                   <td>{user.location.country}</td>
-                  <td>Borrar</td>
+                  <td onClick={() => { handleDeleted(user.email) }}>Borrar</td>
 
                 </tr>)
             }
