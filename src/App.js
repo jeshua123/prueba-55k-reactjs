@@ -22,13 +22,13 @@ function App() {
 
   const sortingUsers = () => { setShowSortUsers(!showSortUsers) }
 
-  const usersArray = showSortUsers ? users.toSorted((a, b) => { return a.location.country.localeCompare(b.location.country) }) : users
-  const sortButtonInfoDisplay = showSortUsers ? "no ordenar por pais" : "ordenar por pais"
-
   const filteredUsers = filterCountry ?
     users.filter(user => user.location.country.tolowerCase().includes(filterCountry.toLowerCase())
-
     ) : users
+
+  const usersArray = showSortUsers ? filteredUsers.toSorted((a, b) => { return a.location.country.localeCompare(b.location.country) }) : users
+
+  const sortButtonInfoDisplay = showSortUsers ? "no ordenar por pais" : "ordenar por pais"
 
   const handleDeleted = (email) => { setUsers(users.filter((users) => users.email !== email)) }
   const setStated = () => {
