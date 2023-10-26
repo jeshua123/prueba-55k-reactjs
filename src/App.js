@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import './App.css';
 
 function App() {
@@ -22,22 +22,27 @@ function App() {
 
   const sortingUsers = () => { setShowSortUsers(!showSortUsers) }
 
-  const filteredUsers = filterCountry ?
-    users.filter(user => user.location.country.tolowerCase().includes(filterCountry.toLowerCase())
+  const filteredUsers = useMemo(() => {
+    return filterCountry ? users.filter(user => user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
     ) : users
+  }, [users, filterCountry])
 
-  const usersArray = showSortUsers ? filteredUsers.toSorted((a, b) => { return a.location.country.localeCompare(b.location.country) }) : users
+  const sortedUsers = useMemo(() => {
+    return showSortUsers ?
+      filteredUsers.toSorted((a, b) => { return a.location.country.localeCompare(b.location.country) })
+      : filteredUsers
+  }, [filteredUsers, showSortUsers])
+
 
   const sortButtonInfoDisplay = showSortUsers ? "no ordenar por pais" : "ordenar por pais"
 
   const handleDeleted = (email) => { setUsers(users.filter((users) => users.email !== email)) }
+
   const setStated = () => {
     setUsers(ref.current)
   }
 
-
   return (
-
     <>
       <div className="App">
         <header className="App-header">
@@ -63,7 +68,7 @@ function App() {
               <th>Accion</th>
             </tr>
 
-            {usersArray.map((user, index) => {
+            {sortedUsers.map((user, index) => {
 
               const rowColor = showRowColors ? index % 2 === 0 ? "bgc-1" : "bgc-2" : null
 
