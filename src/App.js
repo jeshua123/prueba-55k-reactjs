@@ -63,7 +63,6 @@ function App() {
                     <td>{user.name.last}</td>
                     <td>{user.location.country}</td>
                     <td>Borrar</td>
-
                   </tr>
                 </>
               )
