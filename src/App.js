@@ -32,9 +32,7 @@ function App() {
 
   }
 
-  const deleteRow = (params) => {
-
-  }
+  const deleteRow = (params) => { }
 
 
   const UsersDisplayedArray = activatedSorting ? sortedUsers : users
@@ -42,7 +40,7 @@ function App() {
   const sortingButtonText = activatedSorting ? "Ordenar por Pais" : "No Ordenar por Pais"
   return (
     <>
-      <header>
+      <header>s
         <h1>Prueba tecnica</h1>
       </header>
       <nav>
