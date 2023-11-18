@@ -4,9 +4,6 @@ import './App.css';
 function App() {
 
   const [users, setUsers] = useState([]);
-
-  const [sortedUsers, setSortedUsers] = useState([]);
-
   const [changeColorShow, setChangeColorShow] = useState();
   const [activatedSorting, setActivatedSorting] = useState(false);
   const usersRef = useRef([])
@@ -24,20 +21,26 @@ function App() {
   function changeColorsOnClick() {
     setChangeColorShow(!changeColorShow)
   }
-
   const sortingUsersByCountry = () => {
-
-    setSortedUsers(users.toSorted((a, b) => { return a.location.country.toLowerCase().localeCompare(b.location.country.toLowerCase()) }))
+    setUsers(users.toSorted((a, b) => { return a.location.country.toLowerCase().localeCompare(b.location.country.toLowerCase()) }))
     setActivatedSorting(!activatedSorting)
+  }
+
+  const setBackToOriginalState = () => {
+    setUsers(usersRef.current)
 
   }
 
-  const deleteRow = (params) => { }
 
 
-  const UsersDisplayedArray = activatedSorting ? sortedUsers : users
+  const UsersDisplayedArray = activatedSorting ? users : usersRef.current
 
-  const sortingButtonText = activatedSorting ? "Ordenar por Pais" : "No Ordenar por Pais"
+  const sortingButtonText = activatedSorting ? "No Ordenar por Pais" : "Ordenar por Pais"
+
+  const deleteRow = (uuid) => {
+    setUsers(UsersDisplayedArray.filter(user => user.login.uuid !== uuid))
+  }
+  console.log(users)
   return (
     <>
       <header>s
@@ -52,7 +55,10 @@ function App() {
           sortingUsersByCountry()
         }
         } >{sortingButtonText}</button>
-        <button>Resetar Estado</button>
+        <button onClick={() => {
+          setBackToOriginalState()
+        }
+        }>Resetar Estado</button>
         <input type="text" name="" id="" />
       </nav>
       <section>
@@ -91,7 +97,7 @@ function App() {
                     <td>{user.name.last}</td>
                     <td>{user.location.country}</td>
                     <td onClick={() => {
-                      deleteRow()
+                      deleteRow(user.login.uuid)
                     }
                     } >Borrar</td>
                   </tr >
