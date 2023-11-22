@@ -31,8 +31,6 @@ function App() {
 
   }
 
-
-
   const UsersDisplayedArray = activatedSorting ? users : usersRef.current
 
   const sortingButtonText = activatedSorting ? "No Ordenar por Pais" : "Ordenar por Pais"
@@ -40,10 +38,15 @@ function App() {
   const deleteRow = (uuid) => {
     setUsers(UsersDisplayedArray.filter(user => user.login.uuid !== uuid))
   }
-  console.log(users)
+  const filterByCountry = (e) => {
+
+
+
+  }
+
   return (
     <>
-      <header>s
+      <header>
         <h1>Prueba tecnica</h1>
       </header>
       <nav>
@@ -59,7 +62,10 @@ function App() {
           setBackToOriginalState()
         }
         }>Resetar Estado</button>
-        <input type="text" name="" id="" />
+        <input onChange={(e) => {
+          filterByCountry(e)
+        }
+        } type="text" name="" id="" />
       </nav>
       <section>
 
