@@ -33,3 +33,6 @@ table{
 .bgc-2{
   background-color: rgb(85,85,85);
 }
+button:focus{
+border:solid 2px  white;
+}
